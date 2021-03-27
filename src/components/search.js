@@ -6,6 +6,7 @@ const Search = () => {
   const {searchTerm} = useParams();
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -13,7 +14,8 @@ const Search = () => {
       setSearch(searchTerm);
       redditService.findThreadByTitle(searchTerm)
         .then(resp => {
-          setResults(resp.data.children)
+          setLoaded(true);
+          setResults(resp.data.children);
         });
     }
   }, [searchTerm])
@@ -28,8 +30,11 @@ const Search = () => {
 
   return (
     <div>
+      <Link to='/'>
+        <i className='fas fa-arrow-left fa-2x'/>
+      </Link>
       <h1>Search</h1>
-      <div className='row m-2'>
+      <div className='row m-1'>
         <input onChange={e => setSearch(e.target.value)}
                className='form-control col-10'
                onKeyPress={pressEnter}
@@ -40,21 +45,31 @@ const Search = () => {
         </button>
       </div>
       <br/>
-      <ul className='list-group'>
-        {
-          results.map(thread => {
-            return (
-              <li className='list-group-item'
-                  key={thread.data.id}>
-                <Link to={`/details/${thread.data.id}`}>
-                  {thread.data.title}
-                </Link>
-              </li>
-            )
-          })
-        }
-      </ul>
-
+      {
+        !loaded && searchTerm !== undefined &&
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border m-3">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      }
+      {
+        loaded &&
+        <ul className='list-group'>
+          {
+            results.map(thread => {
+              return (
+                <li className='list-group-item'
+                    key={thread.data.id}>
+                  <Link to={`/details/${thread.data.id}`}>
+                    {thread.data.title}
+                  </Link>
+                </li>
+              )
+            })
+          }
+        </ul>
+      }
     </div>
   );
 }
