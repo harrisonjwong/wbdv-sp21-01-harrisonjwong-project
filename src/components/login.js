@@ -14,7 +14,7 @@ const Login = ({user, setUser}) => {
       login(username, password)
         .then(res => {
           setUser(res);
-          history.push('/');
+          history.goBack();
         })
         .catch(() => setBanner('Invalid username or password'));
     }

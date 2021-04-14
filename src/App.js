@@ -1,6 +1,6 @@
 import './App.css';
 import Home from './components/home';
-import {BrowserRouter, Link, Route, useHistory} from 'react-router-dom';
+import {BrowserRouter, Link, Route} from 'react-router-dom';
 import Search from './components/search';
 import Details from './components/details';
 import Login from './components/login';
@@ -31,7 +31,9 @@ function App() {
           {
             user &&
             <>
-              <div className='text-primary mr-3'>{user.displayName}</div>
+              <div className='mr-3'>
+                <Link to='/profile'>{user.displayName}</Link>
+              </div>
               <button className='btn btn-outline-secondary' onClick={onClickLogout}>Logout</button>
             </>
           }
@@ -50,8 +52,9 @@ function App() {
                path={['/search', '/search/:searchTerm']}
                component={Search}/>
         <Route exact={true}
-               path={['/details/:redditId']}
-               component={Details}/>
+               path={['/details/:redditId']}>
+          <Details user={user}/>
+        </Route>
         <Route exact={true}
                path={['/login']}>
           <Login user={user} setUser={setUser}/>

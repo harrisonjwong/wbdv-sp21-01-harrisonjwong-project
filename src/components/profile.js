@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {profile, updateUser} from '../services/user-service';
+import {getAllFavoritePostsForUser} from '../services/favorite-post-service';
 
 const Profile = ({user, setUser}) => {
   const [editing, setEditing] = useState(false);
+  const [favPosts, setFavPosts] = useState([]);
 
   const onChangeDisplay = (e) => {
     const text = e.target.value;
@@ -29,6 +31,12 @@ const Profile = ({user, setUser}) => {
     setEditing(false);
   }
 
+  useEffect(() => {
+    if (user) {
+      getAllFavoritePostsForUser(user._id).then(res => setFavPosts(res));
+    }
+  }, [user])
+
   return (
     <div className='container-fluid'>
       <h1>Profile</h1>
@@ -43,13 +51,24 @@ const Profile = ({user, setUser}) => {
       {
         user && !editing &&
         <div>
-          <button className='btn btn-outline-primary' onClick={() => setEditing(true)}>Edit profile</button>
-          <ul className='list-group'>
+          <h3>User Information</h3>
+          <button className='btn btn-outline-primary float-right' onClick={() => setEditing(true)}>Edit profile</button>
+          <ul className='list-group mt-5'>
             <li className='list-group-item'>Display Name: {user.displayName}</li>
             <li className='list-group-item'>Username: {user.username}</li>
-            <li className='list-group-item'>Password: (hidden)</li>
             <li className='list-group-item'>Profile ID: {user._id}</li>
             <li className='list-group-item'>Role: {user.role}</li>
+          </ul>
+
+          <h3 className='mt-3'>Favorite Posts</h3>
+          <ul className='list-group'>
+            {favPosts.map(fp =>
+              <Link key={fp._id}
+                    className='list-group-item'
+                    to={`/details/${fp.threadId}`}>
+                {fp.threadTitle}
+              </Link>
+            )}
           </ul>
         </div>
       }

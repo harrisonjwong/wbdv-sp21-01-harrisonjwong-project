@@ -1,4 +1,6 @@
-const USER_API = 'http://localhost:3001/api'
+const USER_API = 'http://localhost:3001/api';
+// const USER_API = 'http://wbdv-harrisonjwong-project-be.herokuapp.com/api';
+
 
 export const register = (username, password, displayName, role) => {
   return fetch(`${USER_API}/register`, {
