@@ -11,7 +11,6 @@ import {useEffect, useState} from 'react';
 import {logout, profile} from './services/user-service';
 
 function App() {
-  const history = useHistory();
   const [user, setUser] = useState(undefined);
   useEffect(() => {
     profile().then(res => setUser(res));
@@ -21,7 +20,6 @@ function App() {
   }
   return (
     <div className='container-fluid'>
-      {history && history.location.state}
       <BrowserRouter>
         <nav className='navbar navbar-expand-lg navbar-light bg-light'>
           <Link className='navbar-brand' to='/'>Reddit Saver</Link>
@@ -63,8 +61,9 @@ function App() {
           <Register user={user}/>
         </Route>
         <Route exact={true}
-               path={['/profile']}
-               component={Profile}/>
+               path={['/profile']}>
+          <Profile user={user} setUser={setUser}/>
+        </Route>
         <Route exact={true}
                path={['/profile/:uid']}
                component={ProfileDetails}/>

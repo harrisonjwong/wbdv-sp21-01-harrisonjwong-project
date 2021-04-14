@@ -8,11 +8,12 @@ const Register = ({user}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [role, setRole] = useState('user');
   const onClickRegister = () => {
     if (username === '' || password === '' || displayName === '') {
       setBanner('All fields are required');
     } else {
-      register(username, password, displayName)
+      register(username, password, displayName, role)
         .then(() => history.push('/login'))
         .catch(() => setBanner('Username already in use'));
     }
@@ -73,6 +74,13 @@ const Register = ({user}) => {
                  value={password}
                  onKeyPress={pressEnter}
                  onChange={e => setPassword(e.target.value)}/>
+        </div>
+        <div className='form-group row'>
+          <label htmlFor='role' className='col-sm-2 col-form-label'>Role</label>
+          <select className='col-sm-10 form-control' value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value={'superuser'}>Superuser (see aggregate statistics)</option>
+            <option value={'user'}>User (save posts and subreddits)</option>
+          </select>
         </div>
         <div className='row'>
           <div className='col text-center'>

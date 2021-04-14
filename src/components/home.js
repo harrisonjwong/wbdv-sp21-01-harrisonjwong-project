@@ -15,9 +15,9 @@ const Home = () => {
         <Link to='/register' className='list-group-item'>
           Register
         </Link>
-        <div className='list-group-item'>
-          Note: Login and Register do not work yet. For P2 (Project Prototype), click Search.
-        </div>
+        <Link to='/profile' className='list-group-item'>
+          Profile
+        </Link>
       </ul>
     </div>
   );
