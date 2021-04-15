@@ -1,5 +1,5 @@
-const NODE_API = 'http://localhost:3001/api';
-// const NODE_API = 'http://wbdv-harrisonjwong-project-be.herokuapp.com/api';
+// const NODE_API = 'http://localhost:3001/api';
+const NODE_API = 'http://wbdv-harrisonjwong-project-be.herokuapp.com/api';
 
 export const isFavorite = (threadId, userId) => {
   return fetch(`${NODE_API}/favoritepost/check/${threadId}/${userId}`)
