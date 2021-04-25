@@ -8,9 +8,15 @@ export const findThreadById = (redditId) =>
     mode: 'cors'
   }).then(response => response.json());
 
+export const findTopToday = () =>
+  fetch(`https://www.reddit.com/r/all/.json`, {
+    mode: 'cors'
+  }).then(response => response.json());
+
 const api = {
   findThreadById,
-  findThreadByTitle
+  findThreadByTitle,
+  findTopToday
 }
 
 export default api;

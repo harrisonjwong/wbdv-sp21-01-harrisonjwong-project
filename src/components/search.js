@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import redditService from '../services/reddit-service';
-import {Link, useHistory, useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
+import PostsList from './posts-list';
 
 const Search = () => {
   const {searchTerm} = useParams();
@@ -29,18 +30,15 @@ const Search = () => {
   }
 
   return (
-    <div>
-      <Link to='/'>
-        <i className='fas fa-arrow-left fa-2x'/>
-      </Link>
+    <div className='container-fluid'>
       <h1>Search</h1>
       <div className='row m-1'>
         <input onChange={e => setSearch(e.target.value)}
-               className='form-control col-10'
+               className='form-control col-9'
                onKeyPress={pressEnter}
                value={search}/>
         <button onClick={updateSearch}
-                className='btn btn-primary btn-block col-2'>
+                className='btn btn-primary btn-block col-3'>
           Search
         </button>
       </div>
@@ -55,20 +53,7 @@ const Search = () => {
       }
       {
         loaded &&
-        <ul className='list-group'>
-          {
-            results.map(thread => {
-              return (
-                <li className='list-group-item'
-                    key={thread.data.id}>
-                  <Link to={`/details/${thread.data.id}`}>
-                    {thread.data.title}
-                  </Link>
-                </li>
-              )
-            })
-          }
-        </ul>
+        <PostsList results={results} limit={25}/>
       }
     </div>
   );

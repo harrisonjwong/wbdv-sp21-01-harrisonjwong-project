@@ -9,6 +9,8 @@ import ProfileDetails from './components/profile-details';
 import Register from './components/register';
 import {useEffect, useState} from 'react';
 import {logout, profile} from './services/user-service';
+import ProfileSearch from './components/profile-search';
+import PostStatistics from './components/post-statistics';
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -19,35 +21,52 @@ function App() {
     return logout().then(() => setUser(undefined));
   }
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid mb-5'>
       <BrowserRouter>
         <nav className='navbar navbar-expand-lg navbar-light bg-light'>
           <Link className='navbar-brand' to='/'>Reddit Saver</Link>
-          <div className='collapse navbar-collapse'>
-            <div className='navbar-nav'>
-              <Link className='nav-item nav-link' to='/search'>Search</Link>
-            </div>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                  aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"/>
+          </button>
+          <div className='collapse navbar-collapse' id="navbarText">
+            <ul className='navbar-nav mr-auto'>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/search'>Post Search</Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/profilesearch'>Profile Search</Link>
+              </li>
+              {
+                user && user.role === 'superuser' &&
+                  <li className='nav-item'>
+                    <Link className='nav-link' to='/poststatistics'>Favorite Statistics</Link>
+                  </li>
+              }
+            </ul>
+            {
+              user &&
+              <>
+                <div className='mr-3'>
+                  <Link to='/profile'>{user.displayName}</Link>
+                </div>
+                <button className='btn btn-outline-secondary' onClick={onClickLogout}>Logout</button>
+              </>
+            }
+            {
+              !user &&
+              <>
+                <Link className='btn btn-outline-success mr-1' to='/register'>Register</Link>
+                <Link className='btn btn-outline-primary' to='/login'>Login</Link>
+              </>
+            }
           </div>
-          {
-            user &&
-            <>
-              <div className='mr-3'>
-                <Link to='/profile'>{user.displayName}</Link>
-              </div>
-              <button className='btn btn-outline-secondary' onClick={onClickLogout}>Logout</button>
-            </>
-          }
-          {
-            !user &&
-            <>
-              <Link className='btn btn-outline-success mr-1' to='/register'>Register</Link>
-              <Link className='btn btn-outline-primary' to='/login'>Login</Link>
-            </>
-          }
+
         </nav>
         <Route exact={true}
-               path={['/']}
-               component={Home}/>
+               path={['/']}>
+          <Home user={user}/>
+        </Route>
         <Route exact={true}
                path={['/search', '/search/:searchTerm']}
                component={Search}/>
@@ -70,7 +89,26 @@ function App() {
         <Route exact={true}
                path={['/profile/:uid']}
                component={ProfileDetails}/>
+        <Route exact={true}
+               path={['/profilesearch']}
+               component={ProfileSearch}/>
+        <Route exact={true}
+               path={['/poststatistics']}>
+          <PostStatistics user={user}/>
+        </Route>
+
       </BrowserRouter>
+      {/*<footer className='footer bg-light pt-3 pb-3 bottom-nav wbdv-footer-space'>*/}
+      {/*  <div className='container'>*/}
+      {/*    <span className='text-secondary'>*/}
+      {/*      Reddit Saver is a project for CS 5610 in Spring 2021.*/}
+      {/*      <br/>*/}
+      {/*      Source code located*/}
+      {/*      {' '}<a href={'https://github.com/harrisonjwong/wbdv-sp21-01-harrisonjwong-project'}>here</a> and*/}
+      {/*      {' '}<a href={'https://github.com/harrisonjwong/wbdv-sp21-01-harrisonjwong-project-backend'}>here</a>.*/}
+      {/*    </span>*/}
+      {/*  </div>*/}
+      {/*</footer>*/}
     </div>
   );
 }

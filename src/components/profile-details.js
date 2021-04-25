@@ -1,28 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import {Link, useParams} from 'react-router-dom';
-import {getAllFavoritePostsForUsername} from '../services/favorite-post-service';
+import React from 'react';
+import {useHistory, useParams} from 'react-router-dom';
+import UserFavPosts from './user-fav-posts';
 
 const ProfileDetails = () => {
+  const history = useHistory();
   const {uid} = useParams();
-  const [favPosts, setFavPosts] = useState([]);
-  useEffect(() => {
-    if (uid) {
-      getAllFavoritePostsForUsername(uid).then(res => setFavPosts(res));
-    }
-  }, [uid]);
   return (
     <div>
+      <div className='row'>
+      <div className='wbdv-clickable' onClick={() => history.goBack()}>
+        <i className='fas fa-arrow-left fa-2x m-2'/>
+      </div>
       <h1>Profile: {uid}</h1>
+      </div>
       <h3>Favorite Posts</h3>
-      <ul className='list-group'>
-        {favPosts.map(fp =>
-          <Link key={fp._id}
-                className='list-group-item'
-                to={`/details/${fp.threadId}`}>
-            {fp.threadTitle}
-          </Link>
-        )}
-      </ul>
+      <UserFavPosts user={{username: uid}}/>
     </div>
   );
 }

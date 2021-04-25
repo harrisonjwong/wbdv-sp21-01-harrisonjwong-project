@@ -1,18 +1,18 @@
-// const NODE_API = 'http://localhost:3001/api';
-const NODE_API = 'http://wbdv-harrisonjwong-project-be.herokuapp.com/api';
+const NODE_API = 'http://localhost:3001/api';
+// const NODE_API = 'http://wbdv-harrisonjwong-project-be.herokuapp.com/api';
 
 export const isFavorite = (threadId, userId) => {
   return fetch(`${NODE_API}/favoritepost/check/${threadId}/${userId}`)
     .then(res => res.json());
 }
 
-export const addFavorite = (threadId, userId, username, threadTitle) => {
+export const addFavorite = (threadId, userId, username, threadTitle, thumbnail) => {
   return fetch(`${NODE_API}/favoritepost/create`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
     },
-    body: JSON.stringify({threadId, userId, username, threadTitle})
+    body: JSON.stringify({threadId, userId, username, threadTitle, thumbnail})
   }).then(res => res.json());
 }
 
@@ -41,13 +41,19 @@ export const allFavorites = () => {
     .then(res => res.json());
 }
 
+export const getStatistics = () => {
+  return fetch(`${NODE_API}/favoritepost/countByUser`)
+    .then(res => res.json());
+}
+
 const api = {
   isFavorite,
   addFavorite,
   removeFavorite,
   getAllFavoritePostsForUser,
   getAllFavoritePostsForUsername,
-  allFavorites
+  allFavorites,
+  getStatistics
 }
 
 export default api;

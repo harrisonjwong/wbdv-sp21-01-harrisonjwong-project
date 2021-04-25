@@ -26,7 +26,7 @@ const Details = ({user}) => {
   }
 
   const onClickAddFavorite = () => {
-    addFavorite(redditId, user._id, user.username, threadDetails.title)
+    addFavorite(redditId, user._id, user.username, threadDetails.title, threadDetails.thumbnail)
       .then(() => setFavPost(true));
   }
 
@@ -61,6 +61,12 @@ const Details = ({user}) => {
               {
                 favPost && <button className='btn btn-outline-danger' onClick={onClickRemoveFavorite}>Remove Favorite</button>
               }
+            </div>
+          }
+          {
+            !user &&
+            <div className='float-right'>
+              <Link className='btn btn-outline-primary' to='/login'>Login to Favorite Post</Link>
             </div>
           }
           <ul className='list-group mt-5'>

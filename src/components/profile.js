@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {profile, updateUser} from '../services/user-service';
-import {getAllFavoritePostsForUser} from '../services/favorite-post-service';
+import UserFavPosts from './user-fav-posts';
 
 const Profile = ({user, setUser}) => {
   const [editing, setEditing] = useState(false);
-  const [favPosts, setFavPosts] = useState([]);
 
   const onChangeDisplay = (e) => {
     const text = e.target.value;
@@ -23,19 +22,13 @@ const Profile = ({user, setUser}) => {
   }
 
   const onClickSave = () => {
-    updateUser(user);
-    setEditing(false);
+    updateUser(user).then(() => setEditing(false));
+    // setEditing(false);
   }
   const onClickCancel = () => {
     profile().then(res => setUser(res));
     setEditing(false);
   }
-
-  useEffect(() => {
-    if (user) {
-      getAllFavoritePostsForUser(user._id).then(res => setFavPosts(res));
-    }
-  }, [user])
 
   return (
     <div className='container-fluid'>
@@ -61,15 +54,7 @@ const Profile = ({user, setUser}) => {
           </ul>
 
           <h3 className='mt-3'>Favorite Posts</h3>
-          <ul className='list-group'>
-            {favPosts.map(fp =>
-              <Link key={fp._id}
-                    className='list-group-item'
-                    to={`/details/${fp.threadId}`}>
-                {fp.threadTitle}
-              </Link>
-            )}
-          </ul>
+          <UserFavPosts user={user}/>
         </div>
       }
       {
