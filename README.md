@@ -21,3 +21,5 @@ Uses React with font awesome, react-router, bootstrap
 1. Clone the repo
 2. `npm install`
 3. `npm start`
+
+![UML Diagram](./wiki-images/uml.jpg)
