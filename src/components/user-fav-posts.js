@@ -10,7 +10,7 @@ const UserFavPosts = ({user}) => {
     }
   }, [user]);
   const isNotImage = (text) => {
-    return text === 'self' || text === 'default' || text === 'image' || text === '';
+    return text === 'self' || text === 'default' || text === 'image' || text === '' || text === 'spoiler';
   }
   return (
     <ul className='list-group'>

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {profile, updateUser} from '../services/user-service';
 import UserFavPosts from './user-fav-posts';
+import UserFavSubs from './user-fav-subs';
 
 const Profile = ({user, setUser}) => {
   const [editing, setEditing] = useState(false);
@@ -53,8 +54,16 @@ const Profile = ({user, setUser}) => {
             <li className='list-group-item'>Role: {user.role}</li>
           </ul>
 
-          <h3 className='mt-3'>Favorite Posts</h3>
-          <UserFavPosts user={user}/>
+          <div className='row mt-3'>
+            <div className='col-lg-6 col-12'>
+              <h3>Favorite Posts</h3>
+              <UserFavPosts user={user}/>
+            </div>
+            <div className='col-lg-6 col-12'>
+              <h3>Favorite Subreddits</h3>
+              <UserFavSubs user={user}/>
+            </div>
+          </div>
         </div>
       }
       {

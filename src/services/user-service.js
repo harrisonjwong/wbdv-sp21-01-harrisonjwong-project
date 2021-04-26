@@ -54,11 +54,18 @@ export const logout = () => {
   });
 }
 
+export const findUser = (username) => {
+  return fetch(`${USER_API}/findUser/${username}`)
+    .then(res => res.json());
+}
+
 const api = {
   login,
   logout,
   register,
-  profile
+  profile,
+  updateUser,
+  findUser
 }
 
 export default api;

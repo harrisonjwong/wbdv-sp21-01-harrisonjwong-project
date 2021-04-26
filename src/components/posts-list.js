@@ -5,7 +5,7 @@ const PostsList = ({results, limit}) => {
   const display = results.slice(0, limit);
 
   const isNotImage = (text) => {
-    return text === 'self' || text === 'default' || text === 'image' || text === '';
+    return text === 'self' || text === 'default' || text === 'image' || text === '' || text === 'spoiler';
   }
   return (
     <ul className='list-group'>

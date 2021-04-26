@@ -13,10 +13,17 @@ export const findTopToday = () =>
     mode: 'cors'
   }).then(response => response.json());
 
+export const findSubreddit = (sub) =>
+  fetch(`https://www.reddit.com/r/${sub}/.json`, {
+    mode: 'cors'
+  }).then(response => response.json());
+
+
 const api = {
   findThreadById,
   findThreadByTitle,
-  findTopToday
+  findTopToday,
+  findSubreddit
 }
 
 export default api;

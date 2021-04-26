@@ -31,14 +31,15 @@ const Search = () => {
 
   return (
     <div className='container-fluid'>
-      <h1>Search</h1>
+      <h1>Post Search</h1>
+      <p>Enter a search term to search the entirety of reddit</p>
       <div className='row m-1'>
         <input onChange={e => setSearch(e.target.value)}
                className='form-control col-9'
                onKeyPress={pressEnter}
                value={search}/>
         <button onClick={updateSearch}
-                className='btn btn-primary btn-block col-3'>
+                className='btn btn-outline-primary col-3'>
           Search
         </button>
       </div>

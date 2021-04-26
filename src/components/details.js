@@ -3,6 +3,8 @@ import {Link, useHistory, useParams} from 'react-router-dom';
 import redditService from '../services/reddit-service';
 import ReactMarkdown from 'react-markdown';
 import {addFavorite, isFavorite, removeFavorite} from '../services/favorite-post-service';
+import {createOrFindSubreddit} from '../services/subreddit-service';
+import {addFavoriteSub, isFavoriteSub, removeFavoriteSub} from '../services/favorite-subreddit-service';
 
 const Details = ({user}) => {
   const {redditId} = useParams();
@@ -10,10 +12,19 @@ const Details = ({user}) => {
   const [loaded, setLoaded] = useState(false);
   const [favPost, setFavPost] = useState(false);
   const history = useHistory();
+  const [subreddit, setSubreddit] = useState({});
+  const [favSub, setFavSub] = useState(false);
   useEffect(() => {
     redditService.findThreadById(redditId).then(resp => {
       setLoaded(true);
       setThreadDetails(resp[0].data.children[0].data)
+      if (user) {
+        createOrFindSubreddit(resp[0].data.children[0].data.subreddit)
+          .then(sub => {
+            setSubreddit(sub);
+            isFavoriteSub(sub._id, user._id).then(res => setFavSub(res));
+          });
+      }
     });
     if (user) {
       isFavorite(redditId, user._id)
@@ -28,6 +39,14 @@ const Details = ({user}) => {
   const onClickAddFavorite = () => {
     addFavorite(redditId, user._id, user.username, threadDetails.title, threadDetails.thumbnail)
       .then(() => setFavPost(true));
+  }
+
+  const onClickAddFavoriteSub = () => {
+    addFavoriteSub(subreddit._id, user._id).then(() => setFavSub(true));
+  }
+
+  const onClickRemoveFavoriteSub = () => {
+    removeFavoriteSub(subreddit._id, user._id).then(() => setFavSub(false));
   }
 
   const onClickRemoveFavorite = () => {
@@ -47,19 +66,34 @@ const Details = ({user}) => {
       }
       {
         loaded &&
-        <div>
-          <i className='fas fa-arrow-left fa-2x wbdv-clickable' onClick={() => history.goBack()}/>
-          <h3>{threadDetails.title}</h3>
+        <div className='container-fluid'>
+          <div className='row'>
+            <div>
+              <i className='fas fa-arrow-left fa-2x wbdv-clickable' onClick={() => history.goBack()}/>
+            </div>
+            <h3>{threadDetails.title}</h3>
+          </div>
           {!threadDetails.is_self && <img className='mb-2' src={threadDetails.thumbnail} alt={threadDetails.title}/>}
           {
             user &&
             <div className='float-right'>
               <Link className='btn btn-outline-info mr-1' to='/profile'>See Favorites</Link>
               {
-                !favPost && <button className='btn btn-outline-success' onClick={onClickAddFavorite}>Add Favorite</button>
+                !favPost &&
+                <button className='btn btn-outline-success mr-1' onClick={onClickAddFavorite}>Add Favorite Post</button>
               }
               {
-                favPost && <button className='btn btn-outline-danger' onClick={onClickRemoveFavorite}>Remove Favorite</button>
+                favPost &&
+                <button className='btn btn-outline-danger mr-1' onClick={onClickRemoveFavorite}>Remove Favorite
+                  Post</button>
+              }
+              {
+                !favSub && <button className='btn btn-outline-success' onClick={onClickAddFavoriteSub}>Add Favorite
+                  Subreddit</button>
+              }
+              {
+                favSub && <button className='btn btn-outline-danger' onClick={onClickRemoveFavoriteSub}>Remove Favorite
+                  Subreddit</button>
               }
             </div>
           }
@@ -72,9 +106,9 @@ const Details = ({user}) => {
           <ul className='list-group mt-5'>
             <li className='list-group-item'>Date Posted: {transformDate(threadDetails.created_utc)}</li>
             <li className='list-group-item'>
-              <a href={`https://www.reddit.com/r/${threadDetails.subreddit}`} target='_blank' rel='noreferrer'>
+              <Link to={`/subreddit/${threadDetails.subreddit}`}>
                 Subreddit: {threadDetails.subreddit_name_prefixed}
-              </a>
+              </Link>
             </li>
             <li className='list-group-item'>
               <a href={threadDetails.url} target='_blank' rel='noreferrer'>

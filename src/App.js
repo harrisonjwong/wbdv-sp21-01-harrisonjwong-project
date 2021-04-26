@@ -11,6 +11,8 @@ import {useEffect, useState} from 'react';
 import {logout, profile} from './services/user-service';
 import ProfileSearch from './components/profile-search';
 import PostStatistics from './components/post-statistics';
+import Subreddit from './components/subreddit';
+import SubredditSearch from './components/subreddit-search';
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -36,6 +38,9 @@ function App() {
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to='/profilesearch'>Profile Search</Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/subredditsearch'>Subreddit Search</Link>
               </li>
               {
                 user && user.role === 'superuser' &&
@@ -95,6 +100,14 @@ function App() {
         <Route exact={true}
                path={['/poststatistics']}>
           <PostStatistics user={user}/>
+        </Route>
+        <Route exact={true}
+               path={['/subreddit/:subreddit']}>
+          <Subreddit/>
+        </Route>
+        <Route exact={true}
+               path={['/subredditsearch']}>
+          <SubredditSearch/>
         </Route>
 
       </BrowserRouter>

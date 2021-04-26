@@ -15,6 +15,7 @@ const ProfileSearch = () => {
   return (
     <div className='container-fluid'>
       <h1>Profile Search</h1>
+      <p>Enter a username to see his/her favorite posts</p>
       <div className='row m-1'>
       <input className='form-control col-9'
              onKeyPress={pressEnter}

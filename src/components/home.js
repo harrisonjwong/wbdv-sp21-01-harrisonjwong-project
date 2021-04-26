@@ -16,13 +16,14 @@ const Home = ({user}) => {
   return (
     <div className='container-fluid'>
       <h1>Home</h1>
+      <p>See today's top posts and your favorited posts!</p>
       <div className='row'>
         <div className={`${user ? 'col-12 col-lg-6' : 'col-12'}`}>
           <h3>Today's Top Posts</h3>
           {
             loaded &&
             <>
-              <PostsList results={topPosts} limit={5}/>
+              <PostsList results={topPosts} limit={10}/>
             </>
           }
           {
