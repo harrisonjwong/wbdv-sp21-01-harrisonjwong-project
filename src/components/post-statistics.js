@@ -24,7 +24,7 @@ const PostStatistics = ({user}) => {
         user && user.role === 'superuser' &&
         <div className='row'>
           <div className='col-lg-6 col-12'>
-            <h3>Number of Favorite Posts By User</h3>
+            <h3>Number of Favorite Posts</h3>
             {
               <ul className='list-group'>
                 {
@@ -37,7 +37,7 @@ const PostStatistics = ({user}) => {
             }
           </div>
           <div className='col-lg-6 col-12'>
-            <h3>Number of Favorite Subreddits by User</h3>
+            <h3>Number of Favorite Subreddits</h3>
             {
               <ul className='list-group'>
                 {

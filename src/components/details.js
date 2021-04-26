@@ -74,6 +74,7 @@ const Details = ({user}) => {
             <h3>{threadDetails.title}</h3>
           </div>
           {!threadDetails.is_self && <img className='mb-2' src={threadDetails.thumbnail} alt={threadDetails.title}/>}
+          <div className='d-flex flex-row-reverse mb-2'>
           {
             user &&
             <div className='float-right'>
@@ -100,41 +101,49 @@ const Details = ({user}) => {
           {
             !user &&
             <div className='float-right'>
-              <Link className='btn btn-outline-primary' to='/login'>Login to Favorite Post</Link>
+              <Link className='btn btn-outline-primary' to='/login'>Login to Favorite</Link>
             </div>
           }
-          <ul className='list-group mt-5'>
-            <li className='list-group-item'>Date Posted: {transformDate(threadDetails.created_utc)}</li>
-            <li className='list-group-item'>
-              <Link to={`/subreddit/${threadDetails.subreddit}`}>
-                Subreddit: {threadDetails.subreddit_name_prefixed}
-              </Link>
-            </li>
-            <li className='list-group-item'>
-              <a href={threadDetails.url} target='_blank' rel='noreferrer'>
-                Content Link ({threadDetails.domain})
-              </a>
-            </li>
-            <li className='list-group-item'>
-              <a href={`https://www.reddit.com${threadDetails.permalink}`} target='_blank' rel='noreferrer'>
-                Comments: {threadDetails.num_comments}
-              </a>
-            </li>
-            <li className='list-group-item'>Upvotes: {threadDetails.ups} ({`${threadDetails.upvote_ratio * 100}%`})</li>
-            <li className='list-group-item'>Awards: {threadDetails.total_awards_received}</li>
-            {
-              threadDetails.post_hint === 'image' &&
-              <li className='list-group-item'>
+          </div>
+          <div className='row'>
+            <div className={`${threadDetails.post_hint === 'image' ? 'col-lg-6 col-12' : 'col-12'}`}>
+              <ul className='list-group'>
+                <li className='list-group-item'>Date Posted: {transformDate(threadDetails.created_utc)}</li>
+                <li className='list-group-item'>
+                  <Link to={`/subreddit/${threadDetails.subreddit}`}>
+                    Subreddit: {threadDetails.subreddit_name_prefixed}
+                  </Link>
+                </li>
+                <li className='list-group-item'>
+                  <a href={threadDetails.url} target='_blank' rel='noreferrer'>
+                    Content Link ({threadDetails.domain})
+                  </a>
+                </li>
+                <li className='list-group-item'>
+                  <a href={`https://www.reddit.com${threadDetails.permalink}`} target='_blank' rel='noreferrer'>
+                    Comments: {threadDetails.num_comments}
+                  </a>
+                </li>
+                <li
+                  className='list-group-item'>Upvotes: {threadDetails.ups} ({`${threadDetails.upvote_ratio * 100}%`})
+                </li>
+                <li className='list-group-item'>Awards: {threadDetails.total_awards_received}</li>
+                {
+                  threadDetails.selftext &&
+                  <li className='list-group-item'>
+                    <ReactMarkdown source={threadDetails.selftext}/>
+                  </li>
+                }
+              </ul>
+            </div>
+            <div className='col-lg-6 col-12'>
+              {threadDetails.post_hint === 'image' &&
+              <div>
                 <img className='wbdv-image' src={threadDetails.url} alt={threadDetails.title}/>
-              </li>
-            }
-            {
-              threadDetails.selftext &&
-              <li className='list-group-item'>
-                <ReactMarkdown source={threadDetails.selftext}/>
-              </li>
-            }
-          </ul>
+              </div>
+              }
+            </div>
+          </div>
         </div>
       }
     </div>

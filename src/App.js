@@ -45,7 +45,7 @@ function App() {
               {
                 user && user.role === 'superuser' &&
                   <li className='nav-item'>
-                    <Link className='nav-link' to='/poststatistics'>Favorite Statistics</Link>
+                    <Link className='nav-link' to='/poststatistics'>User Statistics</Link>
                   </li>
               }
             </ul>
@@ -103,7 +103,7 @@ function App() {
         </Route>
         <Route exact={true}
                path={['/subreddit/:subreddit']}>
-          <Subreddit/>
+          <Subreddit user={user}/>
         </Route>
         <Route exact={true}
                path={['/subredditsearch']}>

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {profile, updateUser} from '../services/user-service';
 import UserFavPosts from './user-fav-posts';
 import UserFavSubs from './user-fav-subs';
 
 const Profile = ({user, setUser}) => {
+  const history = useHistory();
   const [editing, setEditing] = useState(false);
 
   const onChangeDisplay = (e) => {
@@ -33,7 +34,12 @@ const Profile = ({user, setUser}) => {
 
   return (
     <div className='container-fluid'>
-      <h1>Profile</h1>
+      <div className='row'>
+        <div>
+          <i className='fas fa-arrow-left fa-2x m-2 wbdv-clickable' onClick={() => history.goBack()}/>
+        </div>
+        <h1>My Profile</h1>
+      </div>
       {!user &&
       <>
         <div className='alert alert-warning'>
@@ -87,8 +93,8 @@ const Profile = ({user, setUser}) => {
             <li className='list-group-item'>Profile ID: {user._id} (cannot change)</li>
             <li className='list-group-item'>Role:
               <select className='form-control' onChange={onChangeRole} value={user.role}>
-                <option value='user'>User</option>
-                <option value='superuser'>Superuser</option>
+                <option value={'user'}>User (save posts and subreddits)</option>
+                <option value={'superuser'}>Superuser (see user statistics)</option>
               </select>
             </li>
           </ul>

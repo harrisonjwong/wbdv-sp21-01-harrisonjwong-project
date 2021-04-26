@@ -20,6 +20,7 @@ const ProfileSearch = () => {
       <input className='form-control col-9'
              onKeyPress={pressEnter}
              onChange={e => setSearchTerm(e.target.value)}
+             placeholder='alice'
              value={searchTerm}/>
       <button className='btn btn-outline-primary col-3' onClick={goToProfile}>Search</button>
       </div>

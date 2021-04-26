@@ -17,7 +17,7 @@ const ProfileDetails = () => {
         <div className='wbdv-clickable' onClick={() => history.goBack()}>
           <i className='fas fa-arrow-left fa-2x m-2'/>
         </div>
-        <h1>Profile: {uid}</h1>
+        <h1>Profile: {user ? user.displayName : uid} ({uid})</h1>
       </div>
       {user && <div className='row'>
         <div className='col-lg-6 col-12'>

@@ -78,7 +78,7 @@ const Register = ({user}) => {
         <div className='form-group row'>
           <label htmlFor='role' className='col-sm-2 col-form-label'>Role</label>
           <select className='col-sm-10 form-control' value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value={'superuser'}>Superuser (see aggregate statistics)</option>
+            <option value={'superuser'}>Superuser (see user statistics)</option>
             <option value={'user'}>User (save posts and subreddits)</option>
           </select>
         </div>

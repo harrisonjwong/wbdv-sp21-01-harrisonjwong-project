@@ -37,6 +37,7 @@ const Search = () => {
         <input onChange={e => setSearch(e.target.value)}
                className='form-control col-9'
                onKeyPress={pressEnter}
+               placeholder='pizza'
                value={search}/>
         <button onClick={updateSearch}
                 className='btn btn-outline-primary col-3'>

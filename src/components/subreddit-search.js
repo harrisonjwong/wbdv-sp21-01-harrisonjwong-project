@@ -20,6 +20,7 @@ const SubredditSearch = () => {
         <input className='form-control col-9'
                onKeyPress={pressEnter}
                onChange={e => setSearchTerm(e.target.value)}
+               placeholder='pics'
                value={searchTerm}/>
         <button className='btn btn-outline-primary col-3' onClick={goToSubreddit}>Search</button>
       </div>
