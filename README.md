@@ -22,4 +22,6 @@ Uses React with font awesome, react-router, bootstrap
 2. `npm install`
 3. `npm start`
 
+## UML
+
 ![UML Diagram](./wiki-images/uml.jpg)
