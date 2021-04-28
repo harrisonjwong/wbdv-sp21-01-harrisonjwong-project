@@ -23,6 +23,16 @@ const Profile = ({user, setUser}) => {
     setUser({...user, role: roleVal});
   }
 
+  const onChangeEmail = (e) => {
+    const emailVal = e.target.value;
+    setUser({...user, email: emailVal});
+  }
+
+  const onChangeDob = (e) => {
+    const dobVal = e.target.value;
+    setUser({...user, dob: dobVal});
+  }
+
   const onClickSave = () => {
     updateUser(user).then(() => setEditing(false));
     // setEditing(false);
@@ -58,6 +68,12 @@ const Profile = ({user, setUser}) => {
             <li className='list-group-item'>Username: {user.username}</li>
             <li className='list-group-item'>Profile ID: {user._id}</li>
             <li className='list-group-item'>Role: {user.role}</li>
+            {
+              user.role === 'user' && <li className='list-group-item'>Email: {user.email}</li>
+            }
+            {
+              user.role === 'superuser' && <li className='list-group-item'>DOB: {user.dob}</li>
+            }
           </ul>
 
           <div className='row mt-3'>
@@ -76,19 +92,21 @@ const Profile = ({user, setUser}) => {
         user && editing &&
         <div>
           <ul className='list-group'>
-            <li className='list-group-item'>Display Name:
-              <input className='form-control'
-                     value={user.displayName}
-                     onChange={onChangeDisplay}
-              />
+            <li className='list-group-item'>
+              <label>Display Name:
+                <input className='form-control'
+                       value={user.displayName}
+                       onChange={onChangeDisplay}/>
+              </label>
             </li>
             <li className='list-group-item'>Username: {user.username} (cannot change)</li>
-            <li className='list-group-item'>New password:
-              <input className='form-control'
-                     type='password'
-                     value={user.password}
-                     onChange={onChangePassword}
-              />
+            <li className='list-group-item'>
+              <label>New password:
+                <input className='form-control'
+                       type='password'
+                       value={user.password}
+                       onChange={onChangePassword}/>
+                </label>
             </li>
             <li className='list-group-item'>Profile ID: {user._id} (cannot change)</li>
             <li className='list-group-item'>Role:
@@ -97,6 +115,28 @@ const Profile = ({user, setUser}) => {
                 <option value={'superuser'}>Superuser (see user statistics)</option>
               </select>
             </li>
+            {
+              user.role === 'user' &&
+              <li className='list-group-item'>
+                <label>Email
+                  <input className='form-control'
+                         type='email'
+                         value={user.email}
+                         onChange={onChangeEmail}/>
+                </label>
+              </li>
+            }
+            {
+              user.role === 'superuser' &&
+              <li className='list-group-item'>
+                <label>DOB
+                  <input className='form-control'
+                         type='date'
+                         value={user.dob}
+                         onChange={onChangeDob}/>
+                </label>
+              </li>
+            }
           </ul>
           <button className='btn btn-outline-success mr-1' onClick={onClickSave}>Save profile</button>
           <button className='btn btn-outline-danger' onClick={onClickCancel}>Discard changes</button>

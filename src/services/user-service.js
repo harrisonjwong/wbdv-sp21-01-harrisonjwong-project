@@ -2,14 +2,14 @@
 const USER_API = 'http://wbdv-harrisonjwong-project-be.herokuapp.com/api';
 
 
-export const register = (username, password, displayName, role) => {
+export const register = (username, password, displayName, role, email, dob) => {
   return fetch(`${USER_API}/register`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
     },
     credentials: 'include',
-    body: JSON.stringify({username, password, displayName, role})
+    body: JSON.stringify({username, password, displayName, role, email, dob})
   }).then(response => response.json());
 }
 
